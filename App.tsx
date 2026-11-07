@@ -20,6 +20,8 @@ import NotificationBanner from './components/NotificationBanner';
 import TrademarkManagement from './components/TrademarkManagement';
 import Dashboard from './components/Dashboard';
 import { CheckIcon } from './components/icons/ActionIcons';
+import OfficialLogo from './components/OfficialLogo';
+import { formatCost } from './utils';
 
 const getOverallStatus = (statuses: (RecordStatus | undefined)[]): RecordStatus => {
     const validStatuses = statuses.filter(Boolean) as RecordStatus[];
@@ -671,6 +673,76 @@ const App: React.FC = () => {
     filteredArchivedRecords
   ]);
 
+  // Global Summary Strip Metrics (Matching Reference KPI Strip)
+  const overviewMetrics = useMemo(() => {
+    const allDatedRecords = [
+      ...filteredCommercialLicenses,
+      ...filteredOperationalLicenses,
+      ...filteredCivilDefenseCerts,
+      ...filteredLeaseContracts,
+      ...filteredGeneralContracts,
+      ...filteredSpecialAgencies,
+      ...filteredTrademarkCerts,
+      ...filteredOtherTopicsData,
+    ];
+
+    const totalLicensesCount =
+      filteredCommercialLicenses.length +
+      filteredOperationalLicenses.length +
+      filteredCivilDefenseCerts.length +
+      filteredTrademarkCerts.length +
+      filteredOtherTopicsData.length;
+
+    const totalActivitiesCount =
+      filteredOperationalLicenses.length +
+      filteredCivilDefenseCerts.length +
+      filteredProcedures.length;
+
+    const totalContractsCount =
+      filteredLeaseContracts.length +
+      filteredGeneralContracts.length +
+      filteredSpecialAgencies.length;
+
+    const activeRecordsCount = allDatedRecords.filter(r => r.status === RecordStatus.Active).length;
+    const soonRecordsCount = allDatedRecords.filter(r => r.status === RecordStatus.SoonToExpire).length;
+    const expiredRecordsCount = allDatedRecords.filter(r => r.status === RecordStatus.Expired).length;
+
+    const licenseItems = [
+      ...filteredCommercialLicenses,
+      ...filteredOperationalLicenses,
+      ...filteredCivilDefenseCerts,
+      ...filteredGeneralContracts,
+      ...filteredSpecialAgencies,
+      ...filteredTrademarkCerts,
+      ...filteredOtherTopicsData,
+    ];
+    const licensesSum = licenseItems.reduce((sum, item) => sum + (Number(item.cost) || 0), 0);
+    const contractsSum = filteredLeaseContracts.reduce(
+      (sum, item) => sum + (Number(item.documentedCost) || 0) + (Number(item.internalCost) || 0),
+      0
+    );
+
+    return {
+      totalLicenses: allDatedRecords.length || totalLicensesCount,
+      totalActivities: totalActivitiesCount,
+      totalContracts: totalContractsCount,
+      activeCount: activeRecordsCount,
+      soonCount: soonRecordsCount,
+      expiredCount: expiredRecordsCount,
+      totalCost: licensesSum + contractsSum,
+    };
+  }, [
+    filteredCommercialLicenses,
+    filteredOperationalLicenses,
+    filteredCivilDefenseCerts,
+    filteredLeaseContracts,
+    filteredGeneralContracts,
+    filteredSpecialAgencies,
+    filteredTrademarkCerts,
+    filteredOtherTopicsData,
+    filteredProcedures,
+  ]);
+
   const handleSendNotificationEmail = () => {
     const subject = "تنبيه هام: سجلات تحولت إلى حالة قاربت على الانتهاء";
     const body = `
@@ -685,7 +757,7 @@ const App: React.FC = () => {
         يرجى اتخاذ الإجراءات اللازمة للبدء في إجراءات التجديد.
 
         مع تحيات,
-        نظام إدارة الرخص والعقود - ساهر
+        نظام إدارة الرخص والعقود - ساعد (SAAED)
     `;
     
     const mailtoLink = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -795,13 +867,55 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-gray-800 flex flex-col overflow-x-hidden min-w-0">
+    <div id="top" className="min-h-screen bg-[#eef2f6] text-slate-800 flex flex-col overflow-x-hidden min-w-0">
       <Header 
         searchQuery={searchQuery}
         onSearchChange={(e) => setSearchQuery(e.target.value)}
         onBackup={handleBackup}
         onRestore={handleRestoreBackup}
+        expiringCount={expiringItems.length}
+        onToggleNotification={() => setShowNotification(prev => !prev)}
       />
+
+      {/* Main Executive Hero Section with Official SAAED Logo */}
+      <section className="relative w-full bg-[#091526] overflow-hidden border-b-2 border-[#eab308]/60 shadow-md print:hidden">
+        {/* Background Visual Banner */}
+        <div className="relative max-w-[1440px] mx-auto min-h-[210px] sm:min-h-[245px] lg:min-h-[265px] flex items-center">
+          <img
+            src="/assets/aistudio/hero_slice.png"
+            alt="منصة ساعد لإدارة التراخيص التجارية والأنشطة والعقود"
+            className="absolute inset-0 w-full h-full object-cover object-left select-none pointer-events-none"
+          />
+          {/* Smooth Right-to-Left Contrast Scrim for Crisp Arabic Typography */}
+          <div className="absolute inset-0 bg-gradient-to-l from-[#071326]/95 via-[#091931]/80 to-transparent lg:via-[#091931]/45 pointer-events-none" />
+
+          {/* Hero Content on Right (RTL Start) */}
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col items-start text-right">
+            <div className="max-w-xl lg:max-w-lg xl:max-w-xl mr-0">
+              {/* Harmonious Official SAAED Logo Lockup in Hero */}
+              <div className="inline-flex items-center gap-3 mb-3 bg-[#091526]/75 backdrop-blur-md p-1.5 pl-4 rounded-2xl border border-[#eab308]/40 shadow-lg">
+                <OfficialLogo size="sm" />
+                <div className="flex flex-col text-right">
+                  <span className="text-[11px] sm:text-xs font-extrabold text-[#fde047] tracking-wide">
+                    الهوية المؤسسية المعتمدة — ساعد
+                  </span>
+                  <span className="text-[10px] text-slate-300 font-medium">
+                    إدارة الخدمات العامة - قسم إدارة المرافق
+                  </span>
+                </div>
+              </div>
+
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-extrabold text-white leading-tight tracking-tight drop-shadow-sm">
+                إدارة ذكية للتراخيص التجارية والأنشطة والعقود
+              </h2>
+              <div className="w-48 sm:w-64 h-0.5 bg-gradient-to-l from-[#eab308] to-transparent my-2.5" />
+              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium max-w-lg">
+                منصة مؤسسية متكاملة لتسجيل ومتابعة التراخيص التجارية والأنشطة والعقود، وإدارة تواريخ الانتهاء والتنبيهات لضمان استمرارية الأعمال والامتثال التنظيمي.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
       
       <SecondaryHeader 
         activeTab={activeTab} 
@@ -817,6 +931,109 @@ const App: React.FC = () => {
           />
       )}
 
+      {/* 7-Card Summary KPI Strip (Matching Reference Design) */}
+      {activeTab.id !== 'dashboard' && (
+        <section className="max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 mt-4 sm:mt-5 print:hidden">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2.5 sm:gap-3">
+            
+            {/* 1. إجمالي الرخص */}
+            <div className="bg-gradient-to-b from-white to-[#f8fafc] rounded-2xl p-3 sm:p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between gap-2">
+              <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex-shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                </svg>
+              </div>
+              <div className="text-left flex-grow">
+                <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 block">إجمالي الرخص</span>
+                <span className="text-xl sm:text-2xl font-black text-blue-600 font-mono leading-tight">{overviewMetrics.totalLicenses}</span>
+              </div>
+            </div>
+
+            {/* 2. إجمالي الأنشطة */}
+            <div className="bg-gradient-to-b from-white to-[#f8fafc] rounded-2xl p-3 sm:p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between gap-2">
+              <div className="p-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-100 flex-shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <div className="text-left flex-grow">
+                <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 block">إجمالي الأنشطة</span>
+                <span className="text-xl sm:text-2xl font-black text-[#0f2342] font-mono leading-tight">{overviewMetrics.totalActivities}</span>
+              </div>
+            </div>
+
+            {/* 3. إجمالي العقود */}
+            <div className="bg-gradient-to-b from-white to-[#f8fafc] rounded-2xl p-3 sm:p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between gap-2">
+              <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex-shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <div className="text-left flex-grow">
+                <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 block">إجمالي العقود</span>
+                <span className="text-xl sm:text-2xl font-black text-[#0f2342] font-mono leading-tight">{overviewMetrics.totalContracts}</span>
+              </div>
+            </div>
+
+            {/* 4. الرخص السارية */}
+            <div className="bg-gradient-to-b from-white to-emerald-50/70 rounded-2xl p-3 sm:p-3.5 border border-emerald-200/80 shadow-xs flex items-center justify-between gap-2">
+              <div className="p-2 rounded-full bg-emerald-600 text-white shadow-xs flex-shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div className="text-left flex-grow">
+                <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 block">الرخص السارية</span>
+                <span className="text-xl sm:text-2xl font-black text-emerald-700 font-mono leading-tight">{overviewMetrics.activeCount}</span>
+              </div>
+            </div>
+
+            {/* 5. قريبة من الانتهاء */}
+            <div className="bg-gradient-to-b from-white to-amber-50/70 rounded-2xl p-3 sm:p-3.5 border border-amber-200/80 shadow-xs flex items-center justify-between gap-2">
+              <div className="p-2 rounded-xl bg-amber-100 text-amber-600 border border-amber-200 flex-shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div className="text-left flex-grow">
+                <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 block">قريبة من الانتهاء</span>
+                <span className="text-xl sm:text-2xl font-black text-amber-600 font-mono leading-tight">{overviewMetrics.soonCount}</span>
+              </div>
+            </div>
+
+            {/* 6. الرخص المنتهية */}
+            <div className="bg-gradient-to-b from-white to-red-50/70 rounded-2xl p-3 sm:p-3.5 border border-red-200/80 shadow-xs flex items-center justify-between gap-2">
+              <div className="p-2 rounded-full bg-red-100 text-red-600 border border-red-200 flex-shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              <div className="text-left flex-grow">
+                <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 block">الرخص المنتهية</span>
+                <span className="text-xl sm:text-2xl font-black text-red-600 font-mono leading-tight">{overviewMetrics.expiredCount}</span>
+              </div>
+            </div>
+
+            {/* 7. إجمالي التكاليف */}
+            <div className="col-span-2 sm:col-span-1 bg-gradient-to-b from-white to-[#f8fafc] rounded-2xl p-3 sm:p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between gap-2">
+              <div className="p-2 rounded-xl bg-amber-50 text-[#ca8a04] border border-amber-200/80 flex-shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div className="text-left flex-grow min-w-0">
+                <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 block">إجمالي التكاليف</span>
+                <span className="text-sm sm:text-base font-black text-[#091526] font-mono leading-tight block truncate" title={formatCost(overviewMetrics.totalCost)}>
+                  {formatCost(overviewMetrics.totalCost)}
+                </span>
+                <span className="text-[10px] font-bold text-slate-500 block">درهم</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      )}
+
       {/* Floating Auto-Save / Action Toast Notification */}
       <div 
         className={`fixed bottom-4 left-4 sm:left-6 sm:bottom-6 z-50 transition-all duration-300 transform ${
@@ -828,11 +1045,9 @@ const App: React.FC = () => {
         <span>{toastMessage || 'تم الحفظ التلقائي بنجاح'}</span>
       </div>
 
-      <main className="flex-grow p-2.5 sm:p-5 lg:p-8 min-w-0">
+      <main id="workspace" className="flex-grow py-4 sm:py-5 px-3 sm:px-6 lg:px-8 min-w-0">
         <div className="max-w-7xl mx-auto min-w-0">
-          <div className="bg-white p-3.5 sm:p-6 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/80 min-w-0">
-            {renderContent()}
-          </div>
+          {renderContent()}
         </div>
       </main>
       <Modal isOpen={modalInfo.isOpen} onClose={handleCloseModal} title={modalInfo.record ? "تعديل السجل" : "إضافة سجل جديد"}>

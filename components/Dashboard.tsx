@@ -4,6 +4,7 @@ import { RecordStatus, ContractType } from '../types';
 import { DashboardIcon, LicenseIcon, ContractIcon, AgencyIcon, SupplierIcon, OtherTopicsIcon, ProcedureIcon, TrademarkIcon } from './icons/TabIcons';
 import { formatCost, calculateRemainingDays, getStatusClass } from '../utils';
 import { CheckIcon, ShieldIcon, ClipboardListIcon, SearchIcon } from './icons/ActionIcons';
+import OfficialLogo from './OfficialLogo';
 import { 
     PieChart, Pie, Cell, ResponsiveContainer, 
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -478,16 +479,19 @@ const Dashboard: React.FC<DashboardProps> = ({
                 <div className="absolute top-0 left-0 w-64 h-64 bg-blue-600 opacity-10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
                 <div className="absolute bottom-0 right-0 w-48 h-48 bg-[#eab308] opacity-5 rounded-full blur-3xl translate-x-1/4 translate-y-1/4"></div>
                 
-                <div className="z-10 text-center md:text-right w-full md:w-auto">
-                    <span className="inline-block px-3 py-1 bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 rounded-full text-xs font-semibold mb-3">
-                        نظام إدارة الرخص والعقود المؤسسي
-                    </span>
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-2">
-                        لوحة المعلومات والإحصائيات
-                    </h1>
-                    <p className="text-slate-400 text-sm max-w-xl">
-                        نظرة شمولية وتفاعلية على مؤشرات الامتثال، الميزانيات، التكاليف المتوقعة، والتوزيع المالي لتجديد الرخص والعقود.
-                    </p>
+                <div className="z-10 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 text-center sm:text-right w-full md:w-auto">
+                    <OfficialLogo size="lg" />
+                    <div>
+                        <span className="inline-block px-3 py-1 bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 rounded-full text-xs font-semibold mb-2">
+                            نظام إدارة الرخص والعقود المؤسسي
+                        </span>
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-2">
+                            لوحة المعلومات والإحصائيات
+                        </h1>
+                        <p className="text-slate-300 text-sm max-w-xl">
+                            نظرة شمولية وتفاعلية على مؤشرات الامتثال، الميزانيات، التكاليف المتوقعة، والتوزيع المالي لتجديد الرخص والعقود.
+                        </p>
+                    </div>
                 </div>
 
                 <div className="z-10 flex gap-3 sm:gap-4 w-full md:w-auto justify-center md:justify-end">

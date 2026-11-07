@@ -293,12 +293,12 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
   }, [columns, sortedData, shouldShowTotal]);
 
   return (
-    <div className="mb-6 last:mb-0">
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-3.5 sm:p-5 mb-5 last:mb-0">
       {/* Top Header & Toolbar Bar */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3.5 mb-4 pb-2 border-b border-gray-100">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3.5 mb-3.5">
         
         {/* Title & Filter */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full md:w-auto flex-grow">
           <div className="flex items-center gap-2">
             {isCollapsible ? (
               <button
@@ -307,7 +307,7 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
                 className="flex items-center gap-2 text-right focus:outline-none group select-none min-h-[40px]"
                 aria-expanded={isOpen}
               >
-                <span className="transform transition-transform duration-200 text-gray-500 group-hover:text-gray-800 p-1">
+                <span className="transform transition-transform duration-200 text-slate-500 group-hover:text-slate-800 p-1">
                   <ChevronDownIcon isOpen={isOpen} />
                 </span>
                 {title}
@@ -328,12 +328,12 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
         {/* Action Controls & View Mode Toggle */}
         <div className={`flex flex-wrap items-center gap-2 w-full md:w-auto justify-between sm:justify-end transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
           
-          {/* View Mode Toggle (Table vs Cards) - Accessible on all screen sizes */}
-          <div className="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+          {/* View Mode Toggle (Table vs Cards) */}
+          <div className="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200/90">
             <button
               type="button"
               onClick={() => setViewMode('table')}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
                 viewMode === 'table'
                   ? 'bg-white text-slate-800 shadow-xs'
                   : 'text-slate-500 hover:text-slate-800'
@@ -349,7 +349,7 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
             <button
               type="button"
               onClick={() => setViewMode('cards')}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
                 viewMode === 'cards'
                   ? 'bg-white text-slate-800 shadow-xs'
                   : 'text-slate-500 hover:text-slate-800'
@@ -368,7 +368,7 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
           <button
             type="button"
             onClick={handleExport}
-            className="flex items-center justify-center gap-1.5 bg-white text-blue-700 border border-blue-600 px-3 sm:px-4 py-2 rounded-xl hover:bg-blue-50 active:scale-95 transition-all shadow-xs text-xs sm:text-sm font-medium min-h-[38px]"
+            className="flex items-center justify-center gap-1.5 bg-white text-blue-700 border border-blue-500/80 px-3 sm:px-3.5 py-2 rounded-xl hover:bg-blue-50 active:scale-95 transition-all shadow-2xs text-xs sm:text-sm font-bold min-h-[38px]"
             title="تصدير إلى ملف إكسل"
           >
             <ExcelSheetIcon />
@@ -380,7 +380,7 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
             <button
               type="button"
               onClick={onAdd}
-              className="flex items-center justify-center gap-1.5 bg-[#334155] text-white px-3 sm:px-4 py-2 rounded-xl hover:bg-[#1e293b] active:scale-95 transition-all shadow-xs text-xs sm:text-sm font-semibold min-h-[38px]"
+              className="flex items-center justify-center gap-1.5 bg-gradient-to-b from-[#173054] to-[#091526] text-white px-3.5 sm:px-4 py-2 rounded-xl hover:from-[#1e3d6b] hover:to-[#0f2342] active:scale-95 transition-all shadow-sm text-xs sm:text-sm font-bold min-h-[38px]"
               title="إضافة سجل جديد"
             >
               <PlusIcon />
@@ -525,21 +525,21 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
               </div>
 
               <div className="overflow-x-auto touch-scroll">
-                <table className="min-w-full divide-y divide-gray-200 text-right">
-                  <thead className="bg-[#1e293b]">
+                <table className="min-w-full divide-y divide-slate-200 text-right">
+                  <thead className="bg-gradient-to-l from-[#091526] via-[#102444] to-[#091526]">
                     <tr>
                       {columns.map((col) => {
                         const isSortable = !disableSorting && !['actions', 'attachments', 'serial'].includes(String(col.key));
                         return (
                           <th 
                             key={String(col.key)} 
-                            className={col.headerClassName || "whitespace-nowrap px-3 sm:px-4 py-3 text-center font-medium text-white text-xs sm:text-sm select-none"}
+                            className={col.headerClassName || "whitespace-nowrap px-3 sm:px-4 py-3 text-center font-bold text-white text-xs sm:text-sm select-none"}
                           >
                             {isSortable ? (
                               <button 
                                 type="button"
                                 onClick={() => requestSort(String(col.key))} 
-                                className="flex items-center justify-center gap-1.5 group w-full focus:outline-none hover:text-blue-200 transition-colors"
+                                className="flex items-center justify-center gap-1.5 group w-full focus:outline-none hover:text-[#fde047] transition-colors"
                               >
                                 <span>{col.header}</span>
                                 {!hideSortIcons && (
@@ -558,16 +558,16 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
                       })}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
+                  <tbody className="divide-y divide-slate-200/80 bg-white">
                     {sortedData.length > 0 ? (
                       sortedData.map((item, index) => {
                         const rowKey = item.uniqueKey || (item.originalType ? `${item.originalType}-${item.id}` : `${item.id}-${index}`);
                         return (
-                          <tr key={rowKey} className="hover:bg-slate-50/80 transition-colors">
+                          <tr key={rowKey} className="hover:bg-slate-50/90 transition-colors">
                             {columns.map((col) => {
                               const defaultTdClass = ['name', 'notes', 'recordTypeLabel'].includes(String(col.key))
-                                ? 'px-3 sm:px-4 py-3 text-gray-700 align-middle text-xs sm:text-sm min-w-[180px]'
-                                : 'whitespace-nowrap px-3 sm:px-4 py-3 text-gray-700 align-middle text-xs sm:text-sm text-center';
+                                ? 'px-3 sm:px-4 py-3 text-slate-800 font-medium align-middle text-xs sm:text-sm min-w-[180px]'
+                                : 'whitespace-nowrap px-3 sm:px-4 py-3 text-slate-700 align-middle text-xs sm:text-sm text-center';
                             
                               const tdClass = col.cellClassName || defaultTdClass;
 
@@ -582,7 +582,7 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
                       })
                     ) : (
                       <tr>
-                        <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-400 bg-gray-50/50">
+                        <td colSpan={columns.length} className="px-6 py-12 text-center text-slate-400 bg-slate-50/50">
                           لا توجد بيانات للعرض
                         </td>
                       </tr>
@@ -591,22 +591,24 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
 
                   {/* Foot Total Row */}
                   {shouldShowTotal && (
-                    <tfoot className="bg-slate-100/95 font-bold border-t-2 border-slate-300">
+                    <tfoot className="bg-slate-100/90 font-bold border-t border-slate-200">
                       <tr>
                         {columns.map((col, cIdx) => {
                           const keyStr = String(col.key);
                           if (keyStr === 'serial') {
                             return (
-                              <td key="total-serial" className="whitespace-nowrap px-1 py-3 text-center align-middle text-xs text-slate-500 font-bold bg-slate-200/50">
-                                -
+                              <td key="total-serial" className="whitespace-nowrap px-1 py-2.5 text-center align-middle text-xs text-slate-400 font-bold">
+                                
                               </td>
                             );
                           }
                           if (keyStr === 'name' || (!columns.some(c => String(c.key) === 'name') && cIdx === (columns.some(c => String(c.key) === 'serial') ? 1 : 0))) {
                             return (
-                              <td key="total-label" className="px-4 py-3 text-center align-middle text-sm font-bold text-slate-800">
-                                <div className="flex items-center justify-center gap-1.5">
-                                  <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                              <td key="total-label" className="px-4 py-2.5 text-right align-middle text-sm font-extrabold text-slate-800">
+                                <div className="flex items-center gap-2">
+                                  <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                  </svg>
                                   <span>التكلفة الإجمالية:</span>
                                 </div>
                               </td>
@@ -615,16 +617,16 @@ const DataTable = <T extends { id: number; [key: string]: any }>({
                           if (['cost', 'documentedCost', 'internalCost'].includes(keyStr)) {
                             const totalSum = totalSums[keyStr] || 0;
                             return (
-                              <td key={`total-${keyStr}`} className="whitespace-nowrap px-2 py-3 text-center align-middle text-sm">
-                                <span className="font-mono font-black text-blue-900 bg-blue-100/80 px-2.5 py-1 rounded-md border border-blue-300 inline-block shadow-xs">
+                              <td key={`total-${keyStr}`} className="whitespace-nowrap px-2 py-2.5 text-center align-middle text-sm">
+                                <span className="font-mono font-extrabold text-blue-700 bg-blue-50/90 px-3.5 py-1 rounded-lg border border-blue-400 inline-block shadow-2xs">
                                   {formatCost(totalSum)}
                                 </span>
                               </td>
                             );
                           }
                           return (
-                            <td key={`total-empty-${keyStr}`} className="whitespace-nowrap px-2 py-3 text-center align-middle text-xs text-slate-400">
-                              -
+                            <td key={`total-empty-${keyStr}`} className="whitespace-nowrap px-2 py-2.5 text-center align-middle text-xs text-slate-400">
+                              
                             </td>
                           );
                         })}
