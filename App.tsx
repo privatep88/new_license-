@@ -882,7 +882,7 @@ const App: React.FC = () => {
         {/* Background Visual Banner */}
         <div className="relative max-w-[1440px] mx-auto min-h-[210px] sm:min-h-[245px] lg:min-h-[265px] flex items-center">
           <img
-            src="/assets/aistudio/hero_slice.png"
+            src="./assets/aistudio/hero_slice.png"
             alt="منصة ساعد لإدارة التراخيص التجارية والأنشطة والعقود"
             className="absolute inset-0 w-full h-full object-cover object-left select-none pointer-events-none"
           />
@@ -891,7 +891,7 @@ const App: React.FC = () => {
 
           {/* Hero Content on Right (RTL Start) */}
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col items-start text-right">
-            <div className="max-w-xl lg:max-w-lg xl:max-w-xl mr-0">
+            <div className="max-w-2xl mr-0">
               {/* Harmonious Official SAAED Logo Lockup in Hero */}
               <div className="inline-flex items-center gap-3 mb-3 bg-[#091526]/75 backdrop-blur-md p-1.5 pl-4 rounded-2xl border border-[#eab308]/40 shadow-lg">
                 <OfficialLogo size="sm" />
@@ -905,7 +905,7 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-extrabold text-white leading-tight tracking-tight drop-shadow-sm">
+              <h2 className="text-sm sm:text-lg md:text-xl lg:text-[22px] xl:text-2xl font-extrabold text-white leading-tight tracking-tight drop-shadow-sm whitespace-nowrap">
                 إدارة ذكية للتراخيص التجارية والأنشطة والعقود
               </h2>
               <div className="w-48 sm:w-64 h-0.5 bg-gradient-to-l from-[#eab308] to-transparent my-2.5" />

@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
       {/* Subtle Architectural Skyline Backdrop on Left (Matching Reference Image) */}
       <div className="hidden lg:block absolute left-0 bottom-10 w-64 h-36 pointer-events-none opacity-85 select-none">
         <img
-          src="/assets/aistudio/footer_skyline.png"
+          src="./assets/aistudio/footer_skyline.png"
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover object-left-bottom"

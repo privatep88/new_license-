@@ -7,7 +7,7 @@ interface OfficialLogoProps {
   variant?: 'light-box' | 'clean';
 }
 
-export const OFFICIAL_LOGO_PATH = '/assets/aistudio/logo_1afd1154.png';
+export const OFFICIAL_LOGO_PATH = './assets/aistudio/logo_1afd1154.png';
 
 const OfficialLogo: React.FC<OfficialLogoProps> = ({
   size = 'md',
