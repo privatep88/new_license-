@@ -1,11 +1,152 @@
-<div align="center">
+# نظام ساهر لإدارة الرخص التجارية والأنشطة والعقود
+### SAHER License & Contract Management System
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+نظام مؤسسي متكامل ومتجاوب تلقائياً (Fully Responsive) مصمم لإدارة ومتابعة وتجديد الرخص التجارية والتشغيلية، عقود الإيجار والموردين، شهادات الدفاع المدني، الوكالات الخاصة، والعلامات التجارية، مدعوماً بلوحة معلومات تحليلية وتوزيع مالي ذكي للتكاليف المتوقعة للـ 12 شهراً القادمة.
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## 🌟 أبرز مميزات النظام (Key Features)
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+- 📊 **لوحة تحكم تفاعلية (Interactive Dashboard):**
+  - بطاقات مؤشرات الأداء الرئيسية (KPIs) لمتابعة معدل الامتثال، إجمالي التكاليف، وحالات السجلات (ساري، قارب على الانتهاء، منتهي).
+  - **التكاليف المتوقعة (12 شهراً القادمة):** توزيع مالي متوقع لتكاليف التجديد للرخص والعقود بناءً على تواريخ الانتهاء الفعلية، مع مخطط بياني تفاعلي ومصفوفة شهرية بنمطي العرض (بطاقات / جدول) وفلاير لتفاصيل الشهر المختار.
+  - **الجدول الزمني للانتهاء (Expiry Timeline):** رسم بياني زمني يوضح حجم السجلات المستحقة لكل شهر لتفادي أي انقطاع أو غرامات تشغيلية.
 
-</div>
+- 📱 **واجهة مستخدم متجاوبة بالكامل (Mobile-First & Fully Responsive):**
+  - دعم سلس لجميع مقاسات الشاشات (الهواتف الذكية، الأجهزة اللوحية، والشاشات المكتبية الكبيرة).
+  - دعم كامل للغة العربية والاتجاه من اليمين لليسار (RTL).
+  - جداول بيانات مرنة تدعم التمرير الأفقي أو التحويل لبطاقات عند تصفح الهواتف.
+
+- 📁 **إدارة شاملة لكافة الأنشطة والوثائق:**
+  - **الرخص التجارية والتشغيلية:** متابعة رقم الرخصة، الأمانة، وتاريخ الانتهاء والتجديد.
+  - **عقود الإيجار وعقود الموردين:** متابعة مواعيد السداد والتواريخ التوثيقية والداخلية والرسوم.
+  - **شهادات الدفاع المدني والسلامة:** تنبيهات دورية للمنشآت والمواقع.
+  - **الوكالات الخاصة والعلامات التجارية:** أرشفة ومتابعة السريان والتوثيق.
+  - **سجل الإجراءات والأرشيف:** حفظ السجلات غير النشطة ومتابعة العمليات السابقة.
+
+- ⚡ **تصدير واستيراد البيانات (Excel / XLSX):**
+  - تصدير كامل البيانات إلى جداول Excel بضغطة زر.
+  - استيراد وتحديث البيانات الجماعية بسهولة.
+
+- 🔍 **فلاتر وبحث متقدم:**
+  - تصفية فورية حسب الحالة، نوع السجل، الفرع، أو التكلفة، مع حساب الإجماليات المالية بصورة لحظية.
+
+---
+
+## 🚀 التشغيل والتثبيت محلياً (Run Locally)
+
+### المتطلبات المسبقة (Prerequisites)
+- [Node.js](https://nodejs.org/) (الإصدار 18 أو أحدث / Version 18+)
+- [npm](https://www.npmjs.com/) (يأتي مدمجاً مع Node.js)
+
+### الخطوات (Installation & Execution)
+1. **استنساخ المستودع (Clone Repository):**
+   ```bash
+   git clone https://github.com/<YOUR_USERNAME>/<YOUR_REPOSITORY>.git
+   cd <YOUR_REPOSITORY>
+   ```
+
+2. **تثبيت الحزم البرمجية (Install Dependencies):**
+   ```bash
+   npm install
+   ```
+
+3. **تشغيل الخادم المحلي للتطوير (Start Development Server):**
+   ```bash
+   npm run dev
+   ```
+   افتح المتصفح على: `http://localhost:3000`
+
+4. **التحقق من صحة الكود والأنواع (Type Check & Lint):**
+   ```bash
+   npm run lint
+   ```
+
+5. **بناء المشروع للإنتاج (Build for Production):**
+   ```bash
+   npm run build
+   ```
+   سيتم إنشاء ملفات الإنتاج الجاهزة للنشر داخل مجلد `dist/`.
+
+---
+
+## 🌐 النشر على GitHub & GitHub Pages (Deploy to GitHub)
+
+تم إعداد المشروع مسبقاً ليعمل بسلاسة تامة على **GitHub Pages** ومستودعات **GitHub**:
+- تم ضبط المسار الأساسي في `vite.config.ts` ليكون نسبياً (`base: './'`).
+- يتضمن المشروع إعداد سير العمل التلقائي عبر **GitHub Actions** في `.github/workflows/deploy.yml`.
+
+### خطوات رفع وتشغيل المشروع على GitHub:
+
+1. **تهيئة المستودع ورفع الكود (Push to GitHub):**
+   ```bash
+   git init
+   git add .
+   git commit -m "feat: initial commit - Saher Management System"
+   git branch -M main
+   git remote add origin https://github.com/<YOUR_USERNAME>/<YOUR_REPOSITORY>.git
+   git push -u origin main
+   ```
+
+2. **تفعيل النشر التلقائي عبر GitHub Pages:**
+   1. توجّه إلى المستودع الخاص بك على **GitHub**.
+   2. اضغط على التبويب **Settings** في القائمة العلوية.
+   3. اختر **Pages** من القائمة الجانبية (تحت قسم Code and automation).
+   4. في قسم **Build and deployment**:
+      - اختر **Source**: `GitHub Actions`.
+   5. بمجرد اكتمال العملية (تستغرق عادة دقيقة إلى دقيقتين)، سيعمل الموقع مباشرة على الرابط:
+      ```
+      https://<YOUR_USERNAME>.github.io/<YOUR_REPOSITORY>/
+      ```
+
+---
+
+## 📂 هيكلية المشروع (Project Structure)
+
+```text
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # إعداد النشر التلقائي عبر GitHub Actions
+├── components/                 # مكونات الواجهة البرمجية (React Components)
+│   ├── icons/                  # أيقونات النظام المتجهة (SVG Icons)
+│   ├── AllRecordsManagement.tsx # إدارة جميع السجلات المجمعة
+│   ├── ArchiveManagement.tsx   # إدارة الأرشيف
+│   ├── ContractManagement.tsx  # عقود الإيجار
+│   ├── Dashboard.tsx           # لوحة المعلومات ومخطط التكاليف المتوقعة
+│   ├── DataTable.tsx           # الجداول المتجاوبة وعرض البيانات
+│   ├── Footer.tsx              # تذييل الصفحة
+│   ├── Header.tsx              # ترويسة التطبيق وشريط التنقل
+│   ├── LicenseManagement.tsx   # إدارة الرخص التجارية
+│   ├── Modal.tsx               # النوافذ المنبثقة
+│   ├── NotificationBanner.tsx  # شريط الإشعارات والتنبيهات
+│   ├── OtherTopics.tsx         # الدفاع المدني، الوكالات، والعلامات
+│   ├── ProceduresManagement.tsx # سجل الإجراءات
+│   ├── RecordForm.tsx          # نموذج إضافة وتعديل السجلات
+│   ├── SecondaryHeader.tsx     # الترويسة الفرعية ومؤشرات التبويبات
+│   ├── StatusFilter.tsx        # تصفية الحالات
+│   └── SupplierContractsManagement.tsx # عقود الموردين
+├── constants.ts                # الثوابت والبيانات المبدئية والتهيئة
+├── index.html                  # مدخل HTML الرئيسي
+├── index.tsx                   # نقطة الدخول للتطبيق (Application Entry Point)
+├── package.json                # إعدادات الحزم وسكربتات التشغيل
+├── tsconfig.json               # إعدادات مترجم TypeScript
+├── types.ts                    # تعريفات الواجهات والأنواع (TypeScript Types)
+├── utils.ts                    # دوال المساعدة والحسابات المالية والتنسيق
+└── vite.config.ts              # إعدادات Vite ومسارات البناء
+```
+
+---
+
+## 🛠 التقنيات المستخدمة (Tech Stack)
+
+- **React 18** - مكتبة بناء واجهات المستخدم
+- **TypeScript** - أمان واستقرار الأنواع البرمجية
+- **Vite** - أداة تجميع وتطوير عالية السرعة
+- **Tailwind CSS** - نظام تنسيق متقدم ومتجاوب بالكامل
+- **Recharts** - مكتبة الرسوم والمخططات البيانية التفاعلية
+- **XLSX (SheetJS)** - معالجة وتصدير واستيراد ملفات الإكسل
+
+---
+
+## 📄 الترخيص (License)
+هذا المشروع مخصص للاستخدام المؤسسي الداخلي لإدارة الأنشطة والمرافق.

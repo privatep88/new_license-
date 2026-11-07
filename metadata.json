@@ -1,0 +1,8 @@
+{
+  "name": "SAHER License and Contract Management",
+  "description": "A web application to manage commercial licenses, activities, and lease contracts for SAAED's General Services and Facilities Management department.",
+  "requestFramePermissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
