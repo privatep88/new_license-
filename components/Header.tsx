@@ -9,6 +9,9 @@ interface HeaderProps {
     onRestore: (file: File) => void;
     expiringCount?: number;
     onToggleNotification?: () => void;
+    userDisplayName?: string;
+    userRole?: string;
+    onLogout?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -17,7 +20,10 @@ const Header: React.FC<HeaderProps> = ({
     onBackup,
     onRestore,
     expiringCount = 0,
-    onToggleNotification
+    onToggleNotification,
+    userDisplayName = 'خالد الهاشمي',
+    userRole = 'مدير النظام',
+    onLogout
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -161,8 +167,8 @@ const Header: React.FC<HeaderProps> = ({
             {/* Executive User Profile Lockup (Matching Reference Style) */}
             <div className="hidden xl:flex items-center gap-2.5 pr-2.5 border-r border-slate-700/80 select-none">
               <div className="text-left">
-                <p className="text-xs font-bold text-white leading-tight">خالد الهاشمي</p>
-                <p className="text-[10px] text-slate-400 font-medium">مدير النظام</p>
+                <p className="text-xs font-bold text-white leading-tight">{userDisplayName}</p>
+                <p className="text-[10px] text-slate-400 font-medium">{userRole}</p>
               </div>
               <div className="w-9 h-9 rounded-full bg-gradient-to-b from-[#1e3458] to-[#0c1a30] border-2 border-[#eab308] flex items-center justify-center text-[#eab308] shadow-sm">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -170,6 +176,20 @@ const Header: React.FC<HeaderProps> = ({
                 </svg>
               </div>
             </div>
+
+            {onLogout && (
+              <button
+                type="button"
+                onClick={onLogout}
+                className="bg-[#11223d] p-2 sm:p-2.5 min-w-[38px] min-h-[38px] sm:min-w-[40px] sm:min-h-[40px] rounded-xl hover:bg-red-900/70 hover:border-red-500/60 active:scale-95 transition-all shadow-sm flex items-center justify-center print:hidden border border-slate-700/90 text-slate-200 hover:text-white flex-shrink-0 cursor-pointer"
+                aria-label="تسجيل الخروج"
+                title="تسجيل الخروج"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
+            )}
 
           </div>
         </div>

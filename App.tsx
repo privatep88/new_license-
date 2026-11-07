@@ -22,6 +22,8 @@ import Dashboard from './components/Dashboard';
 import { CheckIcon } from './components/icons/ActionIcons';
 import OfficialLogo from './components/OfficialLogo';
 import { formatCost } from './utils';
+import LoginPage from './components/LoginPage';
+import { getActiveSession, clearActiveSession, AuthUserSession } from './auth';
 
 const getOverallStatus = (statuses: (RecordStatus | undefined)[]): RecordStatus => {
     const validStatuses = statuses.filter(Boolean) as RecordStatus[];
@@ -70,7 +72,13 @@ const getCalculatedStatus = (expiryDate: string | undefined): RecordStatus => {
 const STORAGE_KEY = 'SAHER_APP_DATA_V1';
 
 const App: React.FC = () => {
+  const [authSession, setAuthSession] = useState<AuthUserSession | null>(() => getActiveSession());
   const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+
+  const handleLogout = () => {
+    clearActiveSession();
+    setAuthSession(null);
+  };
   
   // Data States
   const [commercialLicenses, setCommercialLicenses] = useState<License[]>([]);
@@ -866,6 +874,10 @@ const App: React.FC = () => {
     }
   };
 
+  if (!authSession) {
+    return <LoginPage onLoginSuccess={(session) => setAuthSession(session)} />;
+  }
+
   return (
     <div id="top" className="min-h-screen bg-[#eef2f6] text-slate-800 flex flex-col overflow-x-hidden min-w-0">
       <Header 
@@ -875,6 +887,9 @@ const App: React.FC = () => {
         onRestore={handleRestoreBackup}
         expiringCount={expiringItems.length}
         onToggleNotification={() => setShowNotification(prev => !prev)}
+        userDisplayName={authSession.displayNameAr}
+        userRole={authSession.roleAr}
+        onLogout={handleLogout}
       />
 
       {/* Main Executive Hero Section with Official SAAED Logo */}
