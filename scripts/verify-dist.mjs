@@ -3,6 +3,8 @@ import path from 'node:path';
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
+const NOT_FOUND_HTML_PATH = path.join(DIST_DIR, '404.html');
+const NOJEKYLL_PATH = path.join(DIST_DIR, '.nojekyll');
 const ASSETS_DIR = path.join(DIST_DIR, 'assets');
 const AISTUDIO_ASSETS_DIR = path.join(ASSETS_DIR, 'aistudio');
 const ALLOWED_IMAGE_EXTENSIONS = new Set(['.png', '.webp', '.jpg', '.jpeg', '.svg']);
@@ -22,12 +24,20 @@ function fail(message) {
   errors.push(message);
 }
 
-// 1. Verify dist directory and index.html
+// 1. Verify dist directory, index.html, 404.html, and .nojekyll
 if (!fs.existsSync(DIST_DIR)) {
   fail('Missing build output directory: dist/');
 }
 if (!fs.existsSync(INDEX_HTML_PATH)) {
   fail('Missing production entry file: dist/index.html');
+}
+if (!fs.existsSync(NOT_FOUND_HTML_PATH)) {
+  fail('Missing GitHub Pages SPA fallback file: dist/404.html (run "cp dist/index.html dist/404.html" before verification)');
+} else if (fs.statSync(NOT_FOUND_HTML_PATH).size === 0) {
+  fail('dist/404.html is empty');
+}
+if (!fs.existsSync(NOJEKYLL_PATH)) {
+  fail('Missing GitHub Pages marker file: dist/.nojekyll (run "touch dist/.nojekyll" before verification)');
 }
 
 let indexHtml = '';
@@ -48,7 +58,10 @@ if (/src=["'][^"']*\.tsx["']/i.test(indexHtml)) {
   fail('Production dist/index.html references raw .tsx module script');
 }
 
-// 3. Verify compiled JS and CSS assets in dist/assets
+// 3. Verify compiled JS and CSS assets in dist/assets and validate VITE_BASE_PATH alignment
+const expectedBase = process.env.VITE_BASE_PATH || './';
+const normalizedBasePrefix = expectedBase.endsWith('/') ? expectedBase : `${expectedBase}/`;
+
 let bundleContents = indexHtml;
 if (!fs.existsSync(ASSETS_DIR)) {
   fail('Missing dist/assets directory');
@@ -70,16 +83,17 @@ if (!fs.existsSync(ASSETS_DIR)) {
     if (stat.size === 0) {
       fail(`Compiled bundle is empty: dist/assets/${file}`);
     }
-    if (!indexHtml.includes(file)) {
-      fail(`Compiled bundle is not referenced in dist/index.html: ${file}`);
+
+    const expectedAssetRef = `${normalizedBasePrefix}assets/${file}`;
+    if (!indexHtml.includes(expectedAssetRef)) {
+      fail(`dist/index.html does not reference expected asset path "${expectedAssetRef}"`);
     }
-    if (file.endsWith('.js') || file.endsWith('.css')) {
-      bundleContents += '\n' + fs.readFileSync(fullPath, 'utf8');
-    }
+
+    bundleContents += '\n' + fs.readFileSync(fullPath, 'utf8');
   }
 }
 
-// 4. Verify required production image assets by prefix and valid extension (hash-independent)
+// 4. Verify required production image assets by prefix and valid extension (Vite hash-independent)
 for (const req of REQUIRED_IMAGE_PREFIXES) {
   if (!fs.existsSync(req.dir)) {
     fail(`Missing asset directory for "${req.prefix}": ${path.relative(process.cwd(), req.dir)}`);
@@ -125,5 +139,7 @@ if (errors.length > 0) {
 }
 
 console.log('POST-BUILD VERIFICATION PASSED');
-console.log(`Verified dist/index.html, JS/CSS bundles, and ${REQUIRED_IMAGE_PREFIXES.length} required SAHER image assets.`);
+console.log(
+  `Verified dist/index.html, dist/404.html, dist/.nojekyll, JS/CSS bundles (base: ${normalizedBasePrefix}), and ${REQUIRED_IMAGE_PREFIXES.length} required SAHER image assets.`
+);
 process.exit(0);
