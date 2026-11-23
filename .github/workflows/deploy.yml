@@ -37,6 +37,12 @@ jobs:
       - name: Build production bundle
         run: npm run build
 
+      - name: Verify production build & prepare GitHub Pages files
+        run: |
+          node scripts/verify-dist.mjs
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
