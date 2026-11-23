@@ -1,4 +1,5 @@
 import React from 'react';
+import { BRAND_CONFIG } from '../brand';
 
 interface OfficialLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -7,7 +8,7 @@ interface OfficialLogoProps {
   variant?: 'light-box' | 'clean';
 }
 
-export const OFFICIAL_LOGO_PATH = './assets/aistudio/logo_1afd1154.png';
+export const OFFICIAL_LOGO_PATH = BRAND_CONFIG.logoPath;
 
 const OfficialLogo: React.FC<OfficialLogoProps> = ({
   size = 'md',
@@ -27,7 +28,7 @@ const OfficialLogo: React.FC<OfficialLogoProps> = ({
       <div className={`inline-flex items-center justify-center flex-shrink-0 select-none ${containerClassName}`}>
         <img
           src={OFFICIAL_LOGO_PATH}
-          alt="شعار ساعد الرسمي - SAAED Official Logo"
+          alt={BRAND_CONFIG.logoAlt}
           className={`${sizeClasses[size]} object-contain block ${className}`}
           draggable={false}
         />
@@ -41,7 +42,7 @@ const OfficialLogo: React.FC<OfficialLogoProps> = ({
     >
       <img
         src={OFFICIAL_LOGO_PATH}
-        alt="شعار ساعد الرسمي - SAAED Official Logo"
+        alt={BRAND_CONFIG.logoAlt}
         className={`${sizeClasses[size]} object-contain block ${className}`}
         draggable={false}
       />

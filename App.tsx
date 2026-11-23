@@ -21,6 +21,7 @@ import TrademarkManagement from './components/TrademarkManagement';
 import Dashboard from './components/Dashboard';
 import { CheckIcon } from './components/icons/ActionIcons';
 import OfficialLogo from './components/OfficialLogo';
+import { BRAND_CONFIG } from './brand';
 import { formatCost } from './utils';
 import LoginPage from './components/LoginPage';
 import { getActiveSession, clearActiveSession, AuthUserSession } from './auth';
@@ -765,7 +766,7 @@ const App: React.FC = () => {
         يرجى اتخاذ الإجراءات اللازمة للبدء في إجراءات التجديد.
 
         مع تحيات,
-        نظام إدارة الرخص والعقود - ساعد (SAAED)
+        نظام إدارة الرخص والعقود - ${BRAND_CONFIG.nameAr} (${BRAND_CONFIG.nameEn})
     `;
     
     const mailtoLink = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -892,13 +893,31 @@ const App: React.FC = () => {
         onLogout={handleLogout}
       />
 
-      {/* Main Executive Hero Section with Official SAAED Logo */}
+      {/* Print-Only Official SAHER Letterhead for Reports & PDF Previews */}
+      <div className="hidden print:flex items-center justify-between border-b-2 border-[#091526] pb-3 mb-4 px-2">
+        <div className="flex items-center gap-3">
+          <OfficialLogo size="md" variant="clean" />
+          <div className="text-right">
+            <h1 className="text-lg font-extrabold text-[#091526]">
+              {BRAND_CONFIG.systemTitleAr} — {BRAND_CONFIG.nameAr}
+            </h1>
+            <p className="text-xs font-semibold text-slate-600">
+              {BRAND_CONFIG.departmentAr}
+            </p>
+          </div>
+        </div>
+        <div className="text-left text-xs text-slate-500 font-mono">
+          {BRAND_CONFIG.fullNameEn}
+        </div>
+      </div>
+
+      {/* Main Executive Hero Section with Official SAHER Logo */}
       <section className="relative w-full bg-[#091526] overflow-hidden border-b-2 border-[#eab308]/60 shadow-md print:hidden">
         {/* Background Visual Banner */}
         <div className="relative max-w-[1440px] mx-auto min-h-[210px] sm:min-h-[245px] lg:min-h-[265px] flex items-center">
           <img
             src="./assets/aistudio/hero_slice.png"
-            alt="منصة ساعد لإدارة التراخيص التجارية والأنشطة والعقود"
+            alt={`منصة ${BRAND_CONFIG.nameAr} لإدارة التراخيص التجارية والأنشطة والعقود`}
             className="absolute inset-0 w-full h-full object-cover object-left select-none pointer-events-none"
           />
           {/* Smooth Right-to-Left Contrast Scrim for Crisp Arabic Typography */}
@@ -907,15 +926,15 @@ const App: React.FC = () => {
           {/* Hero Content on Right (RTL Start) */}
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col items-start text-right">
             <div className="max-w-2xl mr-0">
-              {/* Harmonious Official SAAED Logo Lockup in Hero */}
+              {/* Harmonious Official SAHER Logo Lockup in Hero */}
               <div className="inline-flex items-center gap-3 mb-3 bg-[#091526]/75 backdrop-blur-md p-1.5 pl-4 rounded-2xl border border-[#eab308]/40 shadow-lg">
                 <OfficialLogo size="sm" />
                 <div className="flex flex-col text-right">
                   <span className="text-[11px] sm:text-xs font-extrabold text-[#fde047] tracking-wide">
-                    الهوية المؤسسية المعتمدة — ساعد
+                    الهوية المؤسسية المعتمدة — {BRAND_CONFIG.nameAr}
                   </span>
                   <span className="text-[10px] text-slate-300 font-medium">
-                    إدارة الخدمات العامة - قسم إدارة المرافق
+                    {BRAND_CONFIG.departmentAr}
                   </span>
                 </div>
               </div>

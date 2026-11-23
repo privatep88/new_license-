@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({
         {/* Desktop & Tablet Main Header Row */}
         <div className="flex items-center justify-between py-2.5 sm:py-3.5 gap-3 sm:gap-4">
           
-          {/* Right Side (RTL Start): Official SAAED Logo */}
+          {/* Right Side (RTL Start): Official SAHER Logo */}
           <div className="flex-shrink-0 flex items-center gap-3">
             <OfficialLogo size="md" />
           </div>

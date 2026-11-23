@@ -1,5 +1,6 @@
 import React from 'react';
 import OfficialLogo from './OfficialLogo';
+import { BRAND_CONFIG } from '../brand';
 
 const LocationIcon: React.FC = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#eab308]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,18 +40,18 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-5 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Rightmost Column in RTL (3 cols): Official SAAED Logo */}
+          {/* Rightmost Column in RTL (3 cols): Official SAHER Logo */}
           <div className="lg:col-span-3 flex flex-col items-start">
             <OfficialLogo size="lg" />
             <span className="text-xs font-bold text-[#eab308] tracking-wide mt-2.5">
-              ساعد للأنظمة والخدمات الذكية
+              {BRAND_CONFIG.fullNameAr}
             </span>
           </div>
 
           {/* About Section (4 cols) */}
           <div className="lg:col-span-4">
             <h3 className="text-sm sm:text-base font-extrabold text-white mb-2.5 inline-block pb-1 border-b-2 border-[#eab308]">
-              عن ساعد (SAAED)
+              عن {BRAND_CONFIG.nameAr} ({BRAND_CONFIG.nameEn})
             </h3>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
               شركة رائدة في تقديم الحلول والأنظمة الذكية، ملتزمون بالابتكار والجودة لتحقيق أعلى مستويات الكفاءة والخدمات الذكية.
@@ -99,7 +100,7 @@ const Footer: React.FC = () => {
             إعداد وتصميم / خالد الهاشمي
           </p>
           <p className="font-medium text-slate-300">
-            جميع الحقوق محفوظة © {currentYear} SAAED FOR SMART SYSTEMS
+            {BRAND_CONFIG.copyrightAr} © {currentYear} {BRAND_CONFIG.fullNameEn}
           </p>
         </div>
       </div>

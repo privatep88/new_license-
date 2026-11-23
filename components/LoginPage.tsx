@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { OFFICIAL_LOGO_PATH } from './OfficialLogo';
+import { BRAND_CONFIG } from '../brand';
 import {
   AuthUserSession,
   verifyUserCredentials,
@@ -153,6 +154,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     const validEmails = [
       ADMIN_EMAIL.toLowerCase(),
       'logistic@saher.ae',
+      'admin@saher.ae',
       'admin@saaed.ae',
       'mr.aljefre@gmail.com',
     ];
@@ -211,11 +213,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             {/* Upper & Middle Card Body */}
             <div className="px-6 sm:px-10 md:px-12 pt-7 sm:pt-9 pb-2 flex flex-col">
               
-              {/* Official SAAED Logo (Original File, Untouched Proportions & Colors) */}
+              {/* Official SAHER Logo (Original File, Untouched Proportions & Colors) */}
               <div className="flex justify-center my-2 sm:my-3">
                 <img
                   src={OFFICIAL_LOGO_PATH}
-                  alt="شعار ساعد الرسمي - SAAED Official Logo"
+                  alt={BRAND_CONFIG.logoAlt}
                   className="h-16 sm:h-20 md:h-[86px] w-auto object-contain block select-none"
                   draggable={false}
                 />
@@ -224,10 +226,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
               {/* Welcome Heading & System Subtitle (Bilingual Arabic + English Side-by-Side) */}
               <div className="text-center mt-2 mb-6 sm:mb-7 select-text space-y-1.5">
                 <h1 className="text-xl sm:text-2xl font-extrabold text-[#0b2241] tracking-tight leading-snug flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
-                  <span>مرحبًا بك في منصة ساعد</span>
+                  <span>مرحبًا بك في منصة {BRAND_CONFIG.nameAr}</span>
                   <span className="text-[#eab308] font-normal">|</span>
                   <span dir="ltr" className="text-base sm:text-xl font-bold text-[#153668]">
-                    Welcome to SAAED Platform
+                    Welcome to {BRAND_CONFIG.nameEn} Platform
                   </span>
                 </h1>
                 <p className="text-xs sm:text-sm font-semibold text-slate-700 flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
@@ -488,11 +490,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       {/* Bottom Corporate Footer Matching Reference Image (Bilingual Arabic + English) */}
       <footer className="relative z-10 w-full py-3 px-4 text-center bg-gradient-to-r from-[#041026]/90 via-[#071c42]/90 to-[#041026]/90 border-t border-[#eab308]/25 select-text">
         <p className="text-xs sm:text-sm font-semibold text-white tracking-wide flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-          <span dir="ltr">© 2026 SAAED</span>
+          <span dir="ltr">© 2026 {BRAND_CONFIG.nameEn}</span>
           <span>—</span>
-          <span>جميع الحقوق محفوظة</span>
+          <span>{BRAND_CONFIG.copyrightAr}</span>
           <span className="text-[#eab308]/80">|</span>
-          <span dir="ltr">All Rights Reserved</span>
+          <span dir="ltr">{BRAND_CONFIG.copyrightEn}</span>
         </p>
       </footer>
 
